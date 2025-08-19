@@ -20,17 +20,19 @@
       font-family: 'Dancing Script', cursive;
       background: linear-gradient(135deg, #ff9a9e, #fecfef);
       overflow: hidden;
+      padding: 10px;
     }
 
     .container {
       text-align: center;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       padding: 20px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      max-width: 90%;
+      max-width: 100%;
       width: 400px;
       animation: fadeIn 1.2s ease;
+      position: relative;
     }
 
     .container img {
@@ -43,13 +45,14 @@
     }
 
     h1 {
-      font-size: 26px;
+      font-size: 24px;
       color: #d63384;
       margin-bottom: 20px;
+      line-height: 1.4;
     }
 
     .btn {
-      font-size: 20px;
+      font-size: 18px;
       padding: 10px 25px;
       margin: 10px;
       border: none;
@@ -92,14 +95,25 @@
       0% { transform: translateY(0) rotate(0); opacity: 1;}
       100% { transform: translateY(-600px) rotate(360deg); opacity: 0;}
     }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 20px; }
+      .container img { width: 90px; height: 90px; }
+      .btn { font-size: 16px; padding: 8px 20px; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="container" id="content"></div>
+  <div class="container" id="content">
+    <img src="https://i.pinimg.com/originals/6a/52/6c/6a526c13a6cf6b17a9c6e8b7b8b2c9f7.jpg" alt="cute">
+    <h1 id="teks">Hai... 💖</h1>
+    <button class="btn iya">Iya</button>
+    <button class="btn tidak">Tidak</button>
+  </div>
 
   <script>
-    // Animasi hati
+    // animasi hati
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
@@ -108,49 +122,44 @@
       heart.style.top = window.innerHeight + "px";
       heart.style.fontSize = (20 + Math.random() * 20) + "px";
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 6000);
     }
     setInterval(createHeart, 700);
 
-    // Prompt nama
+    // ambil elemen
+    const teks = document.getElementById("teks");
+    const iyaBtn = document.querySelector(".iya");
+    const tidakBtn = document.querySelector(".tidak");
+
+    // prompt nama
     const nama = prompt("Hai, siapa namamu?");
-    const content = document.getElementById("content");
-
     if (nama) {
-      content.innerHTML = `
-        <img src="https://i.pinimg.com/originals/6a/52/6c/6a526c13a6cf6b17a9c6e8b7b8b2c9f7.jpg" alt="cute">
-        <h1>Halo ${nama},<br>Apakah Kamu Suka Sama Aku? 💖</h1>
-        <button class="btn iya">Iya</button>
-        <button class="btn tidak">Tidak</button>
-      `;
-
-      const iyaBtn = content.querySelector(".iya");
-      const tidakBtn = content.querySelector(".tidak");
-
-      iyaBtn.addEventListener("click", () => {
-        alert("Aku Suka Kamu Juga 😘😘");
-      });
-
-      // tombol Tidak geser sedikit (tidak terlalu jauh)
-      tidakBtn.addEventListener("mouseover", () => {
-        const currentLeft = tidakBtn.offsetLeft;
-        const currentTop = tidakBtn.offsetTop;
-        const offset = 80; // jarak maksimal lari
-
-        let newLeft = currentLeft + (Math.random() * offset - offset/2);
-        let newTop = currentTop + (Math.random() * offset - offset/2);
-
-        // tetap dalam layar
-        newLeft = Math.max(20, Math.min(window.innerWidth - 100, newLeft));
-        newTop = Math.max(20, Math.min(window.innerHeight - 50, newTop));
-
-        tidakBtn.style.left = `${newLeft}px`;
-        tidakBtn.style.top = `${newTop}px`;
-      });
+      teks.innerHTML = `Halo ${nama},<br>Apakah Kamu Suka Sama Aku? 💖`;
     } else {
-      content.innerHTML = "<h1>Yah, kamu nggak isi nama 😢</h1>";
+      teks.innerHTML = "Yah, kamu nggak isi nama 😢";
     }
+
+    // tombol iya
+    iyaBtn.addEventListener("click", () => {
+      alert("Aku Suka Kamu Juga 😘😘");
+    });
+
+    // tombol tidak kabur
+    tidakBtn.addEventListener("mouseover", () => {
+      const offset = 100; // jarak maksimal geser
+      let newLeft = Math.random() * offset - offset/2;
+      let newTop = Math.random() * offset - offset/2;
+
+      // geser relatif
+      tidakBtn.style.left = (tidakBtn.offsetLeft + newLeft) + "px";
+      tidakBtn.style.top = (tidakBtn.offsetTop + newTop) + "px";
+
+      // tetap dalam layar
+      if (parseInt(tidakBtn.style.left) < 20) tidakBtn.style.left = "20px";
+      if (parseInt(tidakBtn.style.top) < 20) tidakBtn.style.top = "20px";
+      if (parseInt(tidakBtn.style.left) > window.innerWidth - 120) tidakBtn.style.left = (window.innerWidth - 120) + "px";
+      if (parseInt(tidakBtn.style.top) > window.innerHeight - 80) tidakBtn.style.top = (window.innerHeight - 80) + "px";
+    });
   </script>
 
 </body>
