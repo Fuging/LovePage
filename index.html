@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Lamaranku ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-width: 400px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #d63384;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      font-size: 18px;
+      padding: 10px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .iya {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .iya:hover {
+      background: #e63950;
+    }
+
+    .tidak {
+      background: #6c757d;
+      color: white;
+      position: absolute;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Floating hearts background */
+    .heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0); opacity: 1;}
+      100% { transform: translateY(-600px) rotate(360deg); opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="content"></div>
+
+  <script>
+    // Buat hearts animasi
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = window.innerHeight + "px";
+      heart.style.fontSize = (20 + Math.random() * 20) + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+    setInterval(createHeart, 700);
+
+    // Prompt nama
+    const nama = prompt("Hai, siapa namamu?");
+    const content = document.getElementById("content");
+
+    if (nama) {
+      content.innerHTML = `
+        <h1>Halo ${nama},<br>Apakah Kamu Suka Sama Aku? 💖</h1>
+        <button class="btn iya">Iya</button>
+        <button class="btn tidak">Tidak</button>
+      `;
+
+      const iyaBtn = content.querySelector(".iya");
+      const tidakBtn = content.querySelector(".tidak");
+
+      iyaBtn.addEventListener("click", () => {
+        alert("Aku Suka Kamu Juga 😘😘");
+      });
+
+      tidakBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        tidakBtn.style.left = `${x}px`;
+        tidakBtn.style.top = `${y}px`;
+      });
+    } else {
+      content.innerHTML = "<h1>Yah, kamu nggak isi nama 😢</h1>";
+    }
+  </script>
+
+</body>
+</html>
